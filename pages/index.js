@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heading, Page } from "@shopify/polaris";
+import { Button, Card, Heading, Page, Stack, TextField } from "@shopify/polaris";
 
 const Index = () => {
 
@@ -12,6 +12,24 @@ const Index = () => {
   return (
     <Page>
       <Heading>Product Updater App</Heading>
+      <Card>
+        <Card.Section>
+          <Stack vertical>
+            <TextField
+              label="Append to title"
+              value={appendToTitle}
+              onChange={setAppendToTitle}
+            />
+            <TextField
+              label="Append to description"
+              value={appendToDescription}
+              onChange={setAppendToDescription}
+              multiline={3}
+            />
+            <Button primary onClick={()=> console.log('Clicked')}>Select Products</Button>
+          </Stack>  
+        </Card.Section>
+      </Card>
     </Page>
   );
 
