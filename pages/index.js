@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Card, Heading, Page, Stack, TextField } from "@shopify/polaris";
+import { ResourcePicker } from "@shopify/app-bridge-react";
 
 const Index = () => {
 
@@ -26,7 +27,16 @@ const Index = () => {
               onChange={setAppendToDescription}
               multiline={3}
             />
-            <Button primary onClick={()=> console.log('Clicked')}>Select Products</Button>
+            <ResourcePicker
+              resourceType="Product"
+              showVariants={false}
+              open={pickerOpen}
+              onSelection={(resources) => {
+                console.log(resources);
+                setProducts(resources.selection);
+              }}
+            />
+            <Button primary onClick={() => setPickerOpen(true)}>Select Products</Button>
           </Stack>  
         </Card.Section>
       </Card>
