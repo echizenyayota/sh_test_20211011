@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Heading, Page, Stack, TextField } from "@shopify/polaris";
+import { Button, Card, DataTable, EmptyState, Heading, Page, Stack, TextField } from "@shopify/polaris";
 import { ResourcePicker } from "@shopify/app-bridge-react";
 
 const Index = () => {
@@ -9,6 +9,8 @@ const Index = () => {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [showToast, setShowToast] = useState(false);
+
+  const productTableDisplayData = products.map((product) => product.id);
 
   return (
     <Page>
@@ -38,6 +40,13 @@ const Index = () => {
             />
             <Button primary onClick={() => setPickerOpen(true)}>Select Products</Button>
           </Stack>  
+        </Card.Section>
+        <Card.Section>
+          {productTableDisplayData.length ? <DataTable
+            columContentTypes={[]}
+            headings={[]}
+            rows={[]}
+          /> : <EmptyState heading="no products selection"/>}
         </Card.Section>
       </Card>
     </Page>
