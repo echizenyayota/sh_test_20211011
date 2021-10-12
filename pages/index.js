@@ -51,7 +51,7 @@ const Index = () => {
           {productTableDisplayData.length ? <DataTable
             columnContentTypes={['text','text','text','text','text']}
             headings={['ID', 'Old Title', 'New Title', 'Old Description', 'New Description']}
-            rows={[productTableDisplayData]}
+            rows={productTableDisplayData}
           /> : <EmptyState heading="no products selection"/>}
         </Card.Section>
       </Card>
