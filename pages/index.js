@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import { Button, Card, DataTable, EmptyState, Heading, Page, Stack, TextField } from "@shopify/polaris";
+import { useState, useMemo, useCallback } from "react";
+import { Button, Card, DataTable, EmptyState, Frame, Heading, Page, Stack,Toast, TextField } from "@shopify/polaris";
 import { ResourcePicker } from "@shopify/app-bridge-react";
 
 const Index = () => {
@@ -18,44 +18,62 @@ const Index = () => {
     `${product.descriptionHtml}${appendToDescription}`  
   ]), [products, appendToTitle, appendToDescription]);
 
+  const submitHandler = useCallback(() => {
+    console.log('SubmitHandler');
+    setShowToast(true);
+  }, []);
+
+  const toastMarkup = showToast ? 
+    <Toast
+      content="Update Successful"
+      onDismiss={() => setShowToast(false)}
+      duration={4000}
+    /> : null;
+
   return (
-    <Page>
-      <Heading>Product Updater App</Heading>
-      <Card>
-        <Card.Section>
-          <Stack vertical>
-            <TextField
-              label="Append to title"
-              value={appendToTitle}
-              onChange={setAppendToTitle}
-            />
-            <TextField
-              label="Append to description"
-              value={appendToDescription}
-              onChange={setAppendToDescription}
-              multiline={3}
-            />
-            <ResourcePicker
-              resourceType="Product"
-              showVariants={false}
-              open={pickerOpen}
-              onSelection={(resources) => {
-                console.log(resources);
-                setProducts(resources.selection);
-              }}
-            />
-            <Button primary onClick={() => setPickerOpen(true)}>Select Products</Button>
-          </Stack>  
-        </Card.Section>
-        <Card.Section>
-          {productTableDisplayData.length ? <DataTable
-            columnContentTypes={['text','text','text','text','text']}
-            headings={['ID', 'Old Title', 'New Title', 'Old Description', 'New Description']}
-            rows={productTableDisplayData}
-          /> : <EmptyState heading="no products selection"/>}
-        </Card.Section>
-      </Card>
-    </Page>
+    <Frame>
+      <Page>
+        <Heading>Product Updater App</Heading>
+        <Card>
+          <Card.Section>
+            <Stack vertical>
+              <TextField
+                label="Append to title"
+                value={appendToTitle}
+                onChange={setAppendToTitle}
+              />
+              <TextField
+                label="Append to description"
+                value={appendToDescription}
+                onChange={setAppendToDescription}
+                multiline={3}
+              />
+              <ResourcePicker
+                resourceType="Product"
+                showVariants={false}
+                open={pickerOpen}
+                onSelection={(resources) => {
+                  console.log(resources);
+                  setProducts(resources.selection);
+                }}
+              />
+              <Button primary onClick={() => setPickerOpen(true)}>Select Products</Button>
+            </Stack>  
+          </Card.Section>
+          <Card.Section>
+            {productTableDisplayData.length ? <DataTable
+              columnContentTypes={['text','text','text','text','text']}
+              headings={['ID', 'Old Title', 'New Title', 'Old Description', 'New Description']}
+              rows={productTableDisplayData}
+            /> : <EmptyState heading="no products selection"/>}
+          </Card.Section>
+          <Card.Section>
+            <Button primary onClick={submitHandler} disabled={!products.length}>Submit</Button>
+          </Card.Section>
+        </Card>
+        {toastMarkup}
+      </Page>
+    </Frame>
   );
 
 };
